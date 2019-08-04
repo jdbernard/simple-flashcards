@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Simple Flashcards</title>
+    <meta charset=utf-8>
+<style type="text/css">
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 1.5em;
+  margin: 1rem auto;
+}
+
+#settings {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+#settings label {
+  display: block;
+  margin-top: 1.5rem;
+}
+
+#settings textarea {
+  flex-grow: 2;
+  font-size: 100%;
+}
+
+#settings input, #settings select {
+  font-size: 100%;
+  flex-grow: 1;
+}
+
+.adv-settings label {
+  display: flex;
+}
+
+.adv-settings label span {
+  flex-grow: 1;
+}
+
+button {
+  background-color: #FFF;
+  border: solid thin #000;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: inherit;
+  padding: .2em .5em;
+}
+
+.btn-primary {
+  background-color: #1CB841;
+  border: 0;
+  border-radius: 4px;
+  color: #FFF;
+}
+
+#settings .visibility-indicator {
+  display: inline-block;
+  transition: all linear 0.2s;
+}
+
+#settings .adv-settings {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height linear 0.3s;
+}
+
+#settings.adv-settings-visible .visibility-indicator {
+  transform: rotate(90deg);
+}
+
+#settings.adv-settings-visible .adv-settings {
+  max-height: 8em;
+}
+
+.toggle-adv-settings {
+  cursor: pointer;
+}
+
+/* Mobile View */
+@media ( max-width: 600px ) {
+  body {
+    font-size: 125%;
+    height: calc(100vh - 1em);
+    margin: 0.5em;
+    width: calc(100vw - 1em);
+  }
+
+  #settings {
+    align-items: stretch;
+  }
+
+  #settings > button {
+    font-size: 125%;
+    margin: 1em auto;
+    padding: 0.5em 3em;
+  }
+}
+
+/* Tablet View */
+@media (max-width: 1279px and min-width: 601px) {
+}
+
+/* Desktop View */
+@media (min-width: 1280px) {
+  body {
+    font-size: 150%;
+    margin: 2em auto;
+    min-height: calc(100vh - 4em);
+    width: 32em;
+  }
+
+  #settings button {
+    align-self: flex-end;
+  }
+}
+
+</style>
+
+<script>
+  var FC = {};
+  function toggleAdvSettings(e) {
+    FC.settings.classList.toggle('adv-settings-visible');
+  }
+
+  window.onload = function() {
+    FC.settings = document.querySelector('#settings');
+  }
+</script>
+
+  </head>
+  <body>
+    <h1 class=title>Simple Flashcards</h1>
+    <form id=settings>
+      <label>Items</label>
+      <textarea></textarea>
+      <label class=toggle-adv-settings onclick=toggleAdvSettings()>Advanced Settings <span class=visibility-indicator>➤</span></label>
+      <div class=adv-settings>
+        <label>
+          <span>Seconds per slide:</span>
+          <input type=number name=slidePeriod value=3>
+        </label>
+        <label>
+          <span>Saved sets:</span>
+          <select>
+            <option>choose a set to load</option>
+          </select>
+          <button>Load</button>
+        </label>
+        <label>
+          <span>Save this set as:</span>
+          <input type=text name=setName>
+          <button>Save</button>
+        </label>
+      </div>
+      <button class=btn-primary>Go!</button>
+    </form>
+    <div class=cards>
+    </div>
+  </body>
+</html>
