@@ -1,0 +1,196 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 1.5em;
+  margin: 1rem auto;
+}
+
+#settings {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+#settings label {
+  display: block;
+  margin-top: .5rem;
+}
+
+#settings textarea {
+  flex-grow: 2;
+  font-size: 100%;
+}
+
+#settings input, #settings select {
+  font-size: 100%;
+  flex-grow: 1;
+}
+
+button {
+  background-color: #FFF;
+  border: solid thin #000;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: inherit;
+  padding: .2em .5em;
+}
+
+.btn-primary {
+  background-color: #1CB841;
+  border: 0;
+  border-radius: 4px;
+  color: #FFF;
+}
+
+#settings .visibility-indicator {
+  display: inline-block;
+  transition: all linear 0.2s;
+}
+
+#settings #adv-settings {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height linear 0.3s;
+}
+
+#settings.adv-settings-visible #adv-settings {
+  max-height: 40%;
+  overflow-y: scroll;
+}
+
+#settings.adv-settings-visible .visibility-indicator {
+  transform: rotate(90deg);
+}
+
+.toggle-adv-settings {
+  cursor: pointer;
+}
+
+#adv-settings > * {
+  margin: 0 1rem;
+}
+
+#adv-settings label {
+  display: flex;
+  padding: 0 .5rem;
+}
+
+#adv-settings label span,
+#adv-settings label select,
+#adv-settings label input {
+  flex-grow: 0;
+  min-width: 12em;
+}
+
+#adv-settings button {
+  margin: 0 0.5em;
+}
+
+input[name=importFileName] {
+  display: none;
+}
+
+#cards {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-around;
+}
+
+#card-content { margin: auto; }
+#card-content.small-text{ font-size: 100%; }
+#card-content.medium-text{ font-size: 200%; }
+#card-content.large-text{ font-size: 800%; }
+
+/* Card View Visible */
+#settings {
+  display: none;
+}
+
+/* Settings Visible */
+.settings-visible #settings {
+  display: flex;
+}
+
+.settings-visible #cards {
+  display: none;
+}
+
+/* Mobile View */
+@media ( max-width: 600px ) {
+  body {
+    font-size: 125%;
+    height: calc(100vh - 1em);
+    margin: 0.5em;
+    width: calc(100vw - 1em);
+  }
+
+  #settings {
+    align-items: stretch;
+  }
+
+  #settings > button, #cards > button {
+    font-size: 125%;
+    margin: 1em auto;
+    padding: 0.5em 3em;
+  }
+
+  .medium-only, .large-only { display: none; }
+}
+
+/* Tablet View */
+@media (max-width: 1279px) and (min-width: 601px) {
+  body {
+    font-size: 125%;
+    margin: 1em;
+    height: calc(100vh - 2em);
+    width: calc(100vw - 2em);
+  }
+  
+  #settings > button, #cards > button {
+    font-size: 125%;
+    margin: 1em auto;
+    padding: 0.5em 3em;
+  }
+
+  .small, .small-only, .large-only { display: none; }
+}
+
+/* Desktop View */
+@media (min-width: 1280px) {
+  body {
+    font-size: 150%;
+    margin: 2em auto;
+    min-height: calc(100vh - 4em);
+    width: 32em;
+  }
+
+  #settings button, #cards button {
+    align-self: flex-end;
+  }
+
+  .small, .medium, .small-only, .medium-only { display: none; }
+}
+
+#debug {
+  /* display: none; */
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+

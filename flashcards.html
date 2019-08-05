@@ -3,268 +3,9 @@
   <head>
     <title>Simple Flashcards</title>
     <meta charset=utf-8>
-<style type="text/css">
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
-html {
-  font-family: sans-serif;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-.title {
-  font-size: 1.5em;
-  margin: 1rem auto;
-}
-
-#settings {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  opacity: 0;
-}
-
-#settings label {
-  display: block;
-  margin-top: 1.5rem;
-}
-
-#settings textarea {
-  flex-grow: 2;
-  font-size: 100%;
-}
-
-#settings input, #settings select {
-  font-size: 100%;
-  flex-grow: 1;
-}
-
-#adv-settings label {
-  display: flex;
-}
-
-#adv-settings label span {
-  flex-grow: 1;
-}
-
-button {
-  background-color: #FFF;
-  border: solid thin #000;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: inherit;
-  padding: .2em .5em;
-}
-
-.btn-primary {
-  background-color: #1CB841;
-  border: 0;
-  border-radius: 4px;
-  color: #FFF;
-}
-
-#settings .visibility-indicator {
-  display: inline-block;
-  transition: all linear 0.2s;
-}
-
-#settings #adv-settings {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height linear 0.3s;
-}
-
-#settings.adv-settings-visible .visibility-indicator {
-  transform: rotate(90deg);
-}
-
-.toggle-adv-settings {
-  cursor: pointer;
-}
-
-
-
-/* Settings Visible */
-#settings {
-  transition: opacity 0.2s linear;
-  z-index: -1;
-}
-
-.settings-visible #settings {
-  opacity: 1;
-  z-index: 1;
-}
-
-/* Card View Visible */
-#cards {
-  opacity: 1;
-  transition: opacity 0.2s linear;
-  transition-delay: 0.2s;
-  z-index: 1;
-}
-
-.settings-visible #cards {
-  opacity: 0;
-  z-index: -1;
-}
-
-/* Mobile View */
-@media ( max-width: 600px ) {
-  body {
-    font-size: 125%;
-    height: calc(100vh - 1em);
-    margin: 0.5em;
-    width: calc(100vw - 1em);
-  }
-
-  #settings {
-    align-items: stretch;
-  }
-
-  #settings > button {
-    font-size: 125%;
-    margin: 1em auto;
-    padding: 0.5em 3em;
-  }
-
-  #settings.adv-settings-visible #adv-settings {
-    max-height: 12em;
-  }
-}
-
-/* Tablet View */
-@media (max-width: 1279px) and (min-width: 601px) {
-  body {
-    font-size: 125%;
-    margin: 1em;
-    height: calc(100vh - 2em);
-    width: calc(100vw - 2em);
-  }
-  
-  #settings > button {
-    font-size: 125%;
-    margin: 1em auto;
-    padding: 0.5em 3em;
-  }
-
-  #settings.adv-settings-visible #adv-settings {
-    max-height: 10em;
-  }
-}
-
-/* Desktop View */
-@media (min-width: 1280px) {
-  body {
-    font-size: 150%;
-    margin: 2em auto;
-    min-height: calc(100vh - 4em);
-    width: 32em;
-  }
-
-  #settings button {
-    align-self: flex-end;
-  }
-
-  #settings.adv-settings-visible #adv-settings {
-    max-height: 8em;
-  }
-}
-
-</style>
-
-<script>
-  const FC = {
-    items: [],
-    slidePeriod: 3,
-    nextCardIdx: 0,
-    cardOrder: []
-  };
-
-  // http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-  // modified to be a pure function, not mutating it's input
-  FC.shuffle = function(inArray) {
-    var currentIndex = inArray.length
-      , temporaryValue
-      , randomIndex
-      ;
-
-    var outArray = inArray.slice(0);
-
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      // And swap it with the current element.
-      temporaryValue = outArray[currentIndex];
-      outArray[currentIndex] = outArray[randomIndex];
-      outArray[randomIndex] = temporaryValue;
-    }
-
-    return outArray;
-  }
-
-  FC.isRunning = function() {
-    return !FC.bodyEl.classList.contains('settings-visible');
-  }
-
-  FC.toggleAdvSettings = function() {
-    FC.settingsEl.classList.toggle('adv-settings-visible');
-  }
-
-  FC.startCards = function() {
-    FC.items = FC.itemsEl.value.split('\n');
-    FC.slidePeriod =
-      parseInt(FC.settingsEl.querySelector('input[name=slidePeriod]').value);
-
-    FC.nextCardIdx = 0;
-
-    const orderedIndices = [...Array(FC.items.length).keys()];
-    switch (document.querySelector('select[name=cardOrder]').value) {
-      default:
-      case 'in-order':
-        FC.cardOrder = orderedIndices;
-        break;
-      case 'reverse':
-        FC.cardOrder = orderedIndices.reverse();
-        break;
-      case 'random':
-        FC.cardOrder = FC.shuffle(orderedIndices);
-    }
-
-    FC.showNextCard();
-    FC.runningInterval = setInterval(FC.showNextCard, FC.slidePeriod * 1000);
-    FC.bodyEl.classList.remove('settings-visible');
-  }
-
-  FC.stopCards = function() {
-    clearInterval(FC.runningInterval);
-    FC.bodyEl.classList.add('settings-visible');
-  }
-
-  FC.showNextCard = function() {
-    const curItem = FC.items[FC.cardOrder[FC.nextCardIdx]]; 
-    FC.cardContentEl.innerHTML = curItem;
-    FC.nextCardIdx = (FC.nextCardIdx + 1) % FC.items.length;
-  }
-
-  window.onload = function() {
-    FC.settingsEl = document.querySelector('#settings');
-    FC.itemsEl = document.querySelector('#items-input');
-    FC.bodyEl = document.querySelector('body');
-    FC.cardsEl = document.querySelector('#cards');
-    FC.cardContentEl = document.querySelector('#card-content');
-  }
-</script>
+    <link rel=stylesheet href=flashcards.css type="text/css">
+    <script src='flashcards.js'></script>
 
   </head>
   <body class=settings-visible>
@@ -272,7 +13,9 @@ button {
     <form id=settings action=#>
       <label>Items</label>
       <textarea id=items-input></textarea>
-      <label class=toggle-adv-settings onclick=FC.toggleAdvSettings()>Advanced Settings <span class=visibility-indicator>➤</span></label>
+      <label class=toggle-adv-settings>Advanced Settings
+        <span class=visibility-indicator>➤</span>
+      </label>
       <div id=adv-settings>
         <label>
           <span>Seconds per slide:</span>
@@ -285,24 +28,44 @@ button {
             <option value=reverse>in reverse order.</option>
             <option value=random>in random order.</option>
           </select>
-        <label>
-          <span>Saved sets:</span>
-          <select name=loadSetName disabled>
-            <option>choose a set to load</option>
-          </select>
-          <button disabled>Load</button>
         </label>
         <label>
-          <span>Save this set as:</span>
-          <input type=text name=saveSetname disabled>
-          <button disabled>Save</button>
+          <span>Text size: </span>
+          <select name=textSize>
+            <option>small</option>
+            <option>medium</option>
+            <option>large</option>
+          </select>
+        </label>
+        <label>
+          <span>Saved card sets:</span>
+          <select name=loadSetName>
+            <option value=_NULL_>choose a set to load</option>
+          </select>
+          <button id=load-set>Load</button>
+          <button id=delete-set>Delete</button>
+        </label>
+        <label>
+          <span>Save this card set as:</span>
+          <input type=text name=saveSetName>
+          <button id=save-set>Save</button>
+        </label>
+        <label>
+          <button id=export>Export Cards</button>
+          <button id=import>Import Cards</button>
+          <input name=importFileName type=file accept='.json'>
         </label>
       </div>
-      <button class=btn-primary onclick=FC.startCards()>Go!</button>
+      <button class=btn-primary id=start-button>Go!</button>
     </form>
     <div id=cards>
-      <div id=card-content>
-      </div>
+      <div id=card-content></div>
+      <button id=stop-button>Stop</button>
+    </div>
+    <div id=debug>
+      <span class=small-only>small</span>
+      <span class=medium-only>medium</span>
+      <span class=large-only>large</span>
     </div>
   </body>
 </html>
