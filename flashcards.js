@@ -51,7 +51,7 @@
             FC.$('input[name=saveSetName]').value ||
             'new set',
       cards: FC.itemsEl.value,
-      slidePeriod: parseInt(FC.$('input[name=slidePeriod]').value) || 3,
+      cardPeriod: parseInt(FC.$('input[name=cardPeriod]').value) || 3,
       textSize: FC.$('select[name=textSize]').value || 'small',
       sortOrder: FC.$('select[name=cardOrder]').value || 'in-order'
     };
@@ -62,7 +62,7 @@
   FC.populateSettingsFromSet = function(set) {
     FC.$('input[name=saveSetName]').value = set.name;
     FC.itemsEl.value = set.cards;
-    FC.$('input[name=slidePeriod]').value = set.slidePeriod;
+    FC.$('input[name=cardPeriod]').value = set.cardPeriod;
     FC.$('select[name=cardOrder]').value = set.sortOrder;
     FC.$('select[name=textSize]').value = set.textSize;
   };
@@ -96,7 +96,7 @@
 
     FC.$('html').requestFullscreen();
     FC.showNextCard();
-    FC.runningInterval = setInterval(FC.showNextCard, FC.currentSet.slidePeriod * 1000);
+    FC.runningInterval = setInterval(FC.showNextCard, FC.currentSet.cardPeriod * 1000);
     FC.bodyEl.classList.remove('settings-visible');
   };
 
