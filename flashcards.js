@@ -5,7 +5,8 @@
     nextCardIdx: 0,
     cardOrder: [], // elements are objects: { name: 'abc', cards: 'xyz' }
     savedSets: [],
-    $: document.querySelector.bind(document)
+    $: document.querySelector.bind(document),
+    version: "%VERSION%"
   };
 
   FC.shuffle = function(inArray) {
@@ -93,6 +94,7 @@
         FC.cardOrder = FC.shuffle(orderedIndices);
     }
 
+    FC.$('html').requestFullscreen();
     FC.showNextCard();
     FC.runningInterval = setInterval(FC.showNextCard, FC.currentSet.slidePeriod * 1000);
     FC.bodyEl.classList.remove('settings-visible');
@@ -100,6 +102,7 @@
 
   FC.stopCards = function(ev) {
     clearInterval(FC.runningInterval);
+    document.exitFullscreen();
     FC.bodyEl.classList.add('settings-visible');
   };
 

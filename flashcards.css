@@ -57,10 +57,12 @@ button {
 
 #settings .visibility-indicator {
   display: inline-block;
+  font-size: 80%;
   transition: all linear 0.2s;
 }
 
 #settings #adv-settings {
+  font-size: 80%;
   max-height: 0;
   overflow: hidden;
   transition: max-height linear 0.3s;
@@ -68,7 +70,7 @@ button {
 
 #settings.adv-settings-visible #adv-settings {
   max-height: 40%;
-  overflow-y: scroll;
+  overflow: scroll;
 }
 
 #settings.adv-settings-visible .visibility-indicator {
@@ -187,7 +189,7 @@ input[name=importFileName] {
 }
 
 #debug {
-  /* display: none; */
+  display: none;
   position: absolute;
   bottom: 0;
   right: 0;
