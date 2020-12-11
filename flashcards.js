@@ -272,6 +272,8 @@
   };
 
   FC.importCardSetFromURL = function(ev) {
+    ev.preventDefault();
+
     fetch(FC.$('input[name=importURL]').value)
     .then(resp => resp.json())
     .then(set => {
