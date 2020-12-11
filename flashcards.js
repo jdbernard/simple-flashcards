@@ -127,13 +127,15 @@
     const promptDiv = document.createElement("div");
     promptDiv.classList.add('prompt');
     promptDiv.innerHTML = FC.transformContent(item.prompt);
-
-    const answerDiv = document.createElement("div");
-    answerDiv.classList.add('answer');
-    answerDiv.innerHTML = FC.transformContent(item.answer);
-
     newCardDiv.appendChild(promptDiv);
-    newCardDiv.appendChild(answerDiv);
+
+    if (item.answer) {
+      const answerDiv = document.createElement("div");
+      answerDiv.classList.add('answer');
+      answerDiv.innerHTML = FC.transformContent(item.answer);
+      newCardDiv.appendChild(answerDiv);
+    }
+
     return newCardDiv;
   };
 
