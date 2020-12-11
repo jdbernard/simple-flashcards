@@ -97,6 +97,13 @@ button {
   min-width: 12em;
 }
 
+#adv-settings label input[type="radio"] {
+	min-width: unset;
+	margin: 0 0.25em 0 1.5em;
+}
+
+#adv-settings label input[type="radio"]:first-of-type { margin-left: 0; }
+
 #adv-settings button {
   margin: 0 0.5em;
 }
@@ -111,12 +118,58 @@ input[name=importFileName] {
   flex-direction: column;
   flex-grow: 1;
   justify-content: space-around;
+
 }
 
-#card-content { margin: auto; }
-#card-content.small-text{ font-size: 100%; }
-#card-content.medium-text{ font-size: 200%; }
-#card-content.large-text{ font-size: 800%; }
+#card-input {
+    flex-grow: 2;
+    display: flex;
+    flex-direction: row;
+}
+
+#card-input label {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-grow: 1;
+    margin: 0 0.5em;
+}
+
+.card {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.card.current { display: flex; }
+
+.card div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card img {
+  height: auto;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.answer { opacity: 0; }
+.card.show-answer .answer { opacity: 1; }
+
+.card.small  img { width: 50%; }
+.card.medium img { width: 75%; }
+.card.large  img { width: 100%; }
+
+.card.small  .prompt { font-size: 100%; }
+.card.medium .prompt { font-size: 200%; }
+.card.large  .prompt { font-size: 800%; }
+
+.card.small  .answer { font-size: 75%; }
+.card.medium .answer { font-size: 150%; }
+.card.large  .answer { font-size: 400%; }
 
 /* Card View Visible */
 #settings {
@@ -131,6 +184,14 @@ input[name=importFileName] {
 .settings-visible #cards {
   display: none;
 }
+
+#card-input label.only-with-answers,
+#adv-settings label.only-with-answers
+{ display: none; }
+
+.cards-have-answers #card-input label.only-with-answers,
+.cards-have-answers #adv-settings label.only-with-answers
+{ display: flex; }
 
 /* Mobile View */
 @media ( max-width: 600px ) {
@@ -162,7 +223,7 @@ input[name=importFileName] {
     height: calc(100vh - 2em);
     width: calc(100vw - 2em);
   }
-  
+
   #settings > button, #cards > button {
     font-size: 125%;
     margin: 1em auto;
@@ -194,5 +255,3 @@ input[name=importFileName] {
   bottom: 0;
   right: 0;
 }
-
-

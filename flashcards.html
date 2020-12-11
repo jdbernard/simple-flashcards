@@ -13,15 +13,30 @@
   <body class=settings-visible>
     <h1 class=title>Simple Flashcards</h1>
     <form id=settings action=#>
-      <label>Items</label>
-      <textarea id=items-input></textarea>
+      <div id=card-input>
+        <label>Cards
+          <textarea id=prompts-input></textarea>
+        </label>
+        <label class="only-with-answers">Answers
+          <textarea id=answers-input></textarea>
+        </label>
+      </div>
       <label class=toggle-adv-settings>Advanced Settings
         <span class=visibility-indicator>➤</span>
       </label>
       <div id=adv-settings>
         <label>
-          <span>Seconds per card:</span>
-          <input type=number name=cardPeriod value=3>
+          <span>Cards have answers:</span>
+          <label><input type=radio name=hasAnswers value="yes">yes</label>
+          <label><input type=radio name=hasAnswers value="no" checked>no</label>
+        </label>
+        <label>
+          <span>Seconds per prompt:</span>
+          <input type=number name=promptPeriod value=3>
+        </label>
+        <label class="only-with-answers">
+          <span>Seconds per answer:</span>
+          <input type=number name=answerPeriod value=3>
         </label>
         <label>
           <span>Show cards </span>
@@ -57,11 +72,15 @@
           <button id=import>Import Cards</button>
           <input name=importFileName type=file accept='.json'>
         </label>
+        <label>
+          <span>Import from URL: </span>
+          <input name=importURL type=text>
+          <button id=importURL>Import</button>
+        </label>
       </div>
       <button class=btn-primary id=start-button>Go!</button>
     </form>
     <div id=cards>
-      <div id=card-content></div>
       <button id=stop-button>Stop</button>
     </div>
     <div id=debug>
